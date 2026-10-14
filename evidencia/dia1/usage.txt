@@ -1,0 +1,2 @@
+Plan                     1% used
+     27 / 1,500 AIC
