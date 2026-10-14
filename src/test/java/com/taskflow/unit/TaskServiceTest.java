@@ -18,6 +18,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
+import java.util.List;
+import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -162,5 +164,22 @@ class TaskServiceTest {
         } catch (TaskValidationException e) {
             throw new IllegalStateException("dato de prueba inválido", e);
         }
+    }
+
+    @Test
+    void vencidas_devuelveSoloVencidasYOrdenadas() throws TaskValidationException {
+        Task t1 = new Task(1L, "Antigua", "desc", TaskStatus.IN_PROGRESS, Priority.MED, PROYECTO, 1L, LocalDate.now().minusDays(5));
+        Task t2 = new Task(2L, "Hecha", "desc", TaskStatus.DONE, Priority.MED, PROYECTO, 1L, LocalDate.now().minusDays(3));
+        Task t3 = new Task(3L, "Reciente", "desc", TaskStatus.IN_PROGRESS, Priority.MED, PROYECTO, 1L, LocalDate.now().minusDays(1));
+        Task t4 = new Task(4L, "SinFecha", "desc", TaskStatus.IN_PROGRESS, Priority.MED, PROYECTO, 1L, null);
+
+        when(repository.findAll()).thenReturn(List.of(t1, t2, t3, t4));
+
+        List<Task> res = service.vencidas();
+
+        // Solo t1 y t3 deben aparecer, en orden ascendente por dueDate (t1 antes que t3)
+        assertEquals(2, res.size());
+        assertEquals(1L, res.get(0).getId());
+        assertEquals(3L, res.get(1).getId());
     }
 }

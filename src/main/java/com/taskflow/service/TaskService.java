@@ -122,4 +122,12 @@ public class TaskService {
                 .filter(t -> t.getPriority() == priority)
                 .toList();
     }
+
+    /** Lista las tareas vencidas según Task.estaVencida() y ordenadas POR_FECHA. */
+    public List<Task> vencidas() {
+        return repository.findAll().stream()
+                .filter(Task::estaVencida)
+                .sorted(TaskOrders.POR_FECHA)
+                .toList();
+    }
 }
