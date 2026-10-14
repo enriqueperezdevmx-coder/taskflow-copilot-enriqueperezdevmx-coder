@@ -67,7 +67,8 @@ El registro es público y no devuelve el hash de contraseña. La implementación
 | `DELETE` | `/projects/{id}` | `204 No Content`. |
 
 El propietario de un proyecto se determina a partir del usuario autenticado, no de un dato enviado
-por el cliente. El borrado elimina también las tareas asociadas mediante la relación en cascada.
+por el cliente. Al borrar un proyecto, `ProjectService` elimina primero sus tareas y después el
+proyecto; esta cascada es explícita para respetar la clave foránea `tasks.project_id`.
 
 ### `TaskController`
 
@@ -129,6 +130,10 @@ particular, borrar un proyecto requiere ser `ADMIN` o propietario del proyecto:
 proyecto no existe, permite que el flujo alcance el servicio para responder `404`, en lugar de
 informar erróneamente un `403`.
 
+La configuración CORS permite los métodos `GET`, `POST`, `PUT`, `PATCH`, `DELETE` y `OPTIONS`
+desde cualquier origen, sin credenciales. El JWT viaja en la cabecera `Authorization`, no en una
+cookie; los preflight se resuelven antes de exigir autenticación.
+
 ## Manejo de excepciones
 
 `GlobalExceptionHandler` es un `@RestControllerAdvice` que transforma excepciones conocidas en
@@ -169,6 +174,32 @@ violación de estado en `TaskStateException`, que termina como `422 Unprocessabl
 
 Los estados incluyen `TODO`, `IN_PROGRESS` y `DONE`. La creación inicia en `TODO`; para alcanzar
 `DONE` es obligatorio que exista un responsable.
+
+## Persistencia, perfiles e interfaz
+
+La persistencia usa Spring Data JPA. `Task` y `Project` se almacenan como entidades y los
+repositorios encapsulan el acceso a la base de datos. `Task` guarda `projectId` como columna
+propietaria y expone una asociación de solo lectura a `Project`; `Project.ownerId` y
+`Task.assigneeId` se conservan como identificadores, sin cargar entidades `User` asociadas. La
+aplicación configura `open-in-view: false`, por lo que las entidades no deben cruzar la frontera
+HTTP ni depender de relaciones perezosas fuera de la capa de persistencia.
+
+| Perfil | Base de datos | Uso previsto |
+|---|---|---|
+| Predeterminado | H2 en archivo (`./data/taskflow`) | Desarrollo local con datos persistentes entre arranques. |
+| `h2` | H2 en memoria | Desarrollo o demostraciones con una base vacía en cada arranque. |
+| `test` | H2 en memoria | Pruebas automatizadas. |
+| `docker` | PostgreSQL | Ejecución con los valores `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER`, `DB_PASSWORD` y `JWT_SECRET` del entorno. |
+
+`DataSeeder` solo inserta datos cuando no existen tareas. Crea los usuarios, proyectos y tareas de
+ejemplo; utiliza el constructor de rehidratación de `Task` para poder incluir tareas ya vencidas
+en los datos de demostración. El perfil `h2`, al usar `create-drop`, parte de una base limpia y
+vuelve a ejecutar esa semilla.
+
+La interfaz web reside en `src/main/resources/static` y es servida por la misma aplicación. Sus
+recursos `GET` —la raíz, archivos HTML, CSS, JavaScript y favicon— son públicos para que las
+pantallas de acceso puedan cargarse; las llamadas posteriores a rutas protegidas siguen requiriendo
+un JWT.
 
 ## Convenciones de implementación y pruebas
 
