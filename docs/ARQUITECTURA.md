@@ -87,6 +87,18 @@ consulta individualmente bajo `/tasks`.
 Antes de crear una tarea, el controlador verifica que el proyecto del path exista. Por tanto, un
 `projectId` inexistente produce `404 Not Found`.
 
+#### Recorrido completo de POST /projects/{projectId}/tasks
+
+1. El `POST` llega al controlador `TaskController` (`src\main\java\com\taskflow\controller\TaskController.java`).
+2. El controlador comprueba que el proyecto exista llamando a `ProjectService.buscarPorId` (`src\main\java\com\taskflow\service\ProjectService.java`) y lanza `ProjectNotFoundException` (404) si no existe.
+3. Si existe, el controlador delega a `TaskService.crear` (`src\main\java\com\taskflow\service\TaskService.java`), pasando el `TaskRequest` y el `projectId` del path.
+4. Dentro de `TaskService.crear`, se invoca `TaskMapper.aEntidadNueva` (`src\main\java\com\taskflow\mapper\TaskMapper.java`) que convierte el DTO en entidad nueva mediante la fábrica de dominio (`Task.crear`) aplicando las reglas (status=TODO, validación de dueDate).
+5. La entidad resultante se persiste con `TaskRepository.save` (`src\main\java\com\taskflow\repository\TaskRepository.java`), que asigna el `id` por la base de datos.
+6. El `Task` persistido se transforma a DTO de salida con `TaskMapper.aResponse` (`src\main\java\com\taskflow\mapper\TaskMapper.java`).
+7. El controlador responde `201 Created` con cabecera `Location: /tasks/{id}` y el cuerpo `TaskResponse`.
+
+Los nombres de clase y rutas de archivo arriba coinciden con la implementación actual y documentan el flujo desde el controlador hasta la base de datos.
+
 ### `InfoController`
 
 `InfoController` expone `GET /info`, una ruta pública que devuelve `200 OK` con el nombre y la

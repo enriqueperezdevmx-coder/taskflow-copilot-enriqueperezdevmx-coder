@@ -18,7 +18,7 @@ atrasó sin revisar proyecto por proyecto.
 ## Dónde
 
 - Método nuevo en `TaskService`: `public List<Task> vencidas()`.
-- Endpoint nuevo en `TaskController`: `@GetMapping("/tasks/overdue")`. Spring la elige antes que `GET /tasks/{id}` (hoy `GET /tasks/overdue` responde `400` con «El
+- Endpoint nuevo en `TaskController`: `@GetMapping("/tasks/overdue")`. Spring la elige antes que `GET /tasks/{id}` sin importar el orden de declaración: no escribas comentarios sobre ese orden (hoy `GET /tasks/overdue` responde `400` con «El
   parámetro 'id' tiene un valor ilegible»).
 
 ## Tests que deben existir al terminar

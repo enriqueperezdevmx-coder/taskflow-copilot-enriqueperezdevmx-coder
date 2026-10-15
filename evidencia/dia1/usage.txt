@@ -1,1 +1,1 @@
-AI Credits del integrador: 20.24 · modelo: gpt-5.6-terra
+AI Credits del integrador: 1.42 · modelo: gpt-5-mini

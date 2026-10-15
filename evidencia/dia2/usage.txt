@@ -1,8 +1,4 @@
 Get-Clipboard | Set-Content evidencia\dia2\usage.txt
-Add-Content evidencia\dia2\usage.txt "`nal empezar el día (MP-2):"
-Get-Content $HOME\usage-dia2-inicio.txt | Add-Content evidencia\dia2\usage.txt
+Add-Content evidencia\dia2\usage.txt '(copiado el jueves 15; el del miércoles no se guardó)'
 Select-String -Path evidencia\dia2\usage.txt -Pattern '\d+ / [\d,]+ AIC'
-
-al empezar el día (MP-2):
-Get-Clipboard | Set-Content $HOME\usage-dia2-inicio.txt
-Select-String -Path $HOME\usage-dia2-inicio.txt -Pattern '\d+ / [\d,]+ AIC'
+(copiado el jueves 15; el del miércoles no se guardó)

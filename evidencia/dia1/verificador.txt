@@ -39,45 +39,55 @@ Verificando docs\ARQUITECTURA.md contra C:\Users\Lenovo\taskflow-copilot-enrique
 [OK]         línea 84   endpoint  PATCH /tasks/{id}/status  ->  PATCH en src\main\java\com\taskflow\controller\TaskController.java
 [OK]         línea 85   endpoint  DELETE /tasks/{id}  ->  DELETE en src\main\java\com\taskflow\controller\TaskController.java
 [OK]         línea 88   nombre    projectId  ->  aparece en 12 archivo(s), p. ej. src\main\java\com\taskflow\controller\TaskController.java
-[OK]         línea 90   clase     InfoController  ->  src\main\java\com\taskflow\controller\InfoController.java
-[OK]         línea 92   endpoint  GET /info  ->  GET en src\main\java\com\taskflow\controller\InfoController.java
-[OK]         línea 98   clase     JwtAuthenticationFilter  ->  src\main\java\com\taskflow\security\JwtAuthenticationFilter.java
-[EXTERNA]    línea 99   clase     UsernamePasswordAuthenticationFilter  ->  UsernamePasswordAuthenticationFilter no es archivo del proyecto; el código la usa en 1 archivo(s), p. ej. src\main\java\com\taskflow\config\SecurityConfig.java
-[OK]         línea 102  clase     SecurityConfig  ->  src\main\java\com\taskflow\config\SecurityConfig.java
-[EXTERNA]    línea 102  miembro   SessionCreationPolicy.STATELESS  ->  SessionCreationPolicy no es archivo del proyecto; el código la usa en 1 archivo(s), p. ej. src\main\java\com\taskflow\config\SecurityConfig.java
-[OK]         línea 113  endpoint  /info  ->  GET en src\main\java\com\taskflow\controller\InfoController.java
-[REVISA]     línea 114  ruta      /swagger-ui.html  ->  no es un archivo del repo, pero la ruta sale en src\main\java\com\taskflow\config\SecurityConfig.java (¿página que sirve una librería?)
-[REVISA]     línea 116  endpoint  /  ->  ningún controller la declara; la ruta sale en src\main\java\com\taskflow\config\OpenApiConfig.java (¿regla de seguridad, consola, recurso estático?)
-[OK]         línea 126  miembro   ProjectSecurity.esOwner  ->  src\main\java\com\taskflow\security\ProjectSecurity.java
-[OK]         línea 129  clase     ProjectSecurity  ->  src\main\java\com\taskflow\security\ProjectSecurity.java
-[OK]         línea 139  anotación @RestControllerAdvice  ->  se usa en 1 archivo(s), p. ej. src\main\java\com\taskflow\advice\GlobalExceptionHandler.java
-[OK]         línea 140  clase     ErrorResponse  ->  src\main\java\com\taskflow\dto\ErrorResponse.java
-[OK]         línea 145  clase     TaskValidationException  ->  src\main\java\com\taskflow\exception\TaskValidationException.java
-[EXTERNA]    línea 146  clase     AuthenticationEntryPoint  ->  AuthenticationEntryPoint no es archivo del proyecto; el código la usa en 1 archivo(s), p. ej. src\main\java\com\taskflow\config\SecurityConfig.java
-[EXTERNA]    línea 147  clase     AccessDeniedHandler  ->  AccessDeniedHandler no es archivo del proyecto; el código la usa en 1 archivo(s), p. ej. src\main\java\com\taskflow\config\SecurityConfig.java
-[OK]         línea 148  clase     TaskNotFoundException  ->  src\main\java\com\taskflow\exception\TaskNotFoundException.java
-[OK]         línea 148  clase     ProjectNotFoundException  ->  src\main\java\com\taskflow\exception\ProjectNotFoundException.java
-[OK]         línea 149  clase     UsernameAlreadyExistsException  ->  src\main\java\com\taskflow\exception\UsernameAlreadyExistsException.java
-[OK]         línea 150  clase     TaskStateException  ->  src\main\java\com\taskflow\exception\TaskStateException.java
-[EXTERNA]    línea 152  clase     Exception  ->  Exception no es archivo del proyecto; el código la usa en 8 archivo(s), p. ej. src\main\java\com\taskflow\config\SecurityConfig.java
-[OK]         línea 158  miembro   Task.crear  ->  src\main\java\com\taskflow\model\Task.java
-[OK]         línea 168  miembro   Task.estaVencida  ->  src\main\java\com\taskflow\model\Task.java
-[OK]         línea 171  nombre    setStatus()  ->  aparece en 4 archivo(s), p. ej. src\main\java\com\taskflow\config\SecurityConfig.java
-[OK]         línea 172  nombre    assigneeId  ->  aparece en 9 archivo(s), p. ej. src\main\java\com\taskflow\dto\TaskRequest.java
-[OK]         línea 172  miembro   TaskService.cambiarStatus  ->  src\main\java\com\taskflow\service\TaskService.java
-[OK]         línea 180  clase     Project  ->  src\main\java\com\taskflow\model\Project.java
-[OK]         línea 182  miembro   Project.ownerId  ->  src\main\java\com\taskflow\model\Project.java
-[OK]         línea 183  miembro   Task.assigneeId  ->  src\main\java\com\taskflow\model\Task.java
-[OK]         línea 183  clase     User  ->  src\main\java\com\taskflow\model\User.java
-[REVISA]     línea 189  ruta      ./data/taskflow  ->  está en data\, que crea H2 al arrancar (application.yml): el script no revisa esa carpeta
-[OK]         línea 194  clase     DataSeeder  ->  src\main\java\com\taskflow\config\DataSeeder.java
-[OK]         línea 199  ruta      src/main/resources/static  ->  src\main\resources\static
-[OK]         línea 207  anotación @RequestBody  ->  se usa en 3 archivo(s), p. ej. src\main\java\com\taskflow\controller\AuthController.java
-[OK]         línea 214  anotación @WebMvcTest  ->  se usa en 2 archivo(s), p. ej. src\test\java\com\taskflow\slice\ProjectControllerTest.java
-[OK]         línea 214  anotación @DataJpaTest  ->  se usa en 2 archivo(s), p. ej. src\test\java\com\taskflow\integration\TaskRepositoryPostgresIT.java
-[OK]         línea 215  anotación @SpringBootTest  ->  se usa en 5 archivo(s), p. ej. src\test\java\com\taskflow\integration\AuthControllerTest.java
+[OK]         línea 92   ruta      src\main\java\com\taskflow\controller\TaskController.java  ->  src\main\java\com\taskflow\controller\TaskController.java
+[OK]         línea 93   miembro   ProjectService.buscarPorId  ->  src\main\java\com\taskflow\service\ProjectService.java
+[OK]         línea 93   ruta      src\main\java\com\taskflow\service\ProjectService.java  ->  src\main\java\com\taskflow\service\ProjectService.java
+[OK]         línea 93   clase     ProjectNotFoundException  ->  src\main\java\com\taskflow\exception\ProjectNotFoundException.java
+[OK]         línea 94   miembro   TaskService.crear  ->  src\main\java\com\taskflow\service\TaskService.java
+[OK]         línea 94   ruta      src\main\java\com\taskflow\service\TaskService.java  ->  src\main\java\com\taskflow\service\TaskService.java
+[OK]         línea 94   clase     TaskRequest  ->  src\main\java\com\taskflow\dto\TaskRequest.java
+[OK]         línea 95   miembro   TaskMapper.aEntidadNueva  ->  src\main\java\com\taskflow\mapper\TaskMapper.java
+[OK]         línea 95   ruta      src\main\java\com\taskflow\mapper\TaskMapper.java  ->  src\main\java\com\taskflow\mapper\TaskMapper.java
+[OK]         línea 95   miembro   Task.crear  ->  src\main\java\com\taskflow\model\Task.java
+[REVISA]     línea 96   miembro   TaskRepository.save  ->  no está escrito en src\main\java\com\taskflow\repository\TaskRepository.java, que hereda (extends JpaRepository<Task, Long>); el nombre aparece en src\main\java\com\taskflow\config\DataSeeder.java
+[OK]         línea 96   ruta      src\main\java\com\taskflow\repository\TaskRepository.java  ->  src\main\java\com\taskflow\repository\TaskRepository.java
+[OK]         línea 102  clase     InfoController  ->  src\main\java\com\taskflow\controller\InfoController.java
+[OK]         línea 104  endpoint  GET /info  ->  GET en src\main\java\com\taskflow\controller\InfoController.java
+[OK]         línea 110  clase     JwtAuthenticationFilter  ->  src\main\java\com\taskflow\security\JwtAuthenticationFilter.java
+[EXTERNA]    línea 111  clase     UsernamePasswordAuthenticationFilter  ->  UsernamePasswordAuthenticationFilter no es archivo del proyecto; el código la usa en 1 archivo(s), p. ej. src\main\java\com\taskflow\config\SecurityConfig.java
+[OK]         línea 114  clase     SecurityConfig  ->  src\main\java\com\taskflow\config\SecurityConfig.java
+[EXTERNA]    línea 114  miembro   SessionCreationPolicy.STATELESS  ->  SessionCreationPolicy no es archivo del proyecto; el código la usa en 1 archivo(s), p. ej. src\main\java\com\taskflow\config\SecurityConfig.java
+[OK]         línea 125  endpoint  /info  ->  GET en src\main\java\com\taskflow\controller\InfoController.java
+[REVISA]     línea 126  ruta      /swagger-ui.html  ->  no es un archivo del repo, pero la ruta sale en src\main\java\com\taskflow\config\SecurityConfig.java (¿página que sirve una librería?)
+[REVISA]     línea 128  endpoint  /  ->  ningún controller la declara; la ruta sale en src\main\java\com\taskflow\config\OpenApiConfig.java (¿regla de seguridad, consola, recurso estático?)
+[OK]         línea 138  miembro   ProjectSecurity.esOwner  ->  src\main\java\com\taskflow\security\ProjectSecurity.java
+[OK]         línea 141  clase     ProjectSecurity  ->  src\main\java\com\taskflow\security\ProjectSecurity.java
+[OK]         línea 151  anotación @RestControllerAdvice  ->  se usa en 1 archivo(s), p. ej. src\main\java\com\taskflow\advice\GlobalExceptionHandler.java
+[OK]         línea 152  clase     ErrorResponse  ->  src\main\java\com\taskflow\dto\ErrorResponse.java
+[OK]         línea 157  clase     TaskValidationException  ->  src\main\java\com\taskflow\exception\TaskValidationException.java
+[EXTERNA]    línea 158  clase     AuthenticationEntryPoint  ->  AuthenticationEntryPoint no es archivo del proyecto; el código la usa en 1 archivo(s), p. ej. src\main\java\com\taskflow\config\SecurityConfig.java
+[EXTERNA]    línea 159  clase     AccessDeniedHandler  ->  AccessDeniedHandler no es archivo del proyecto; el código la usa en 1 archivo(s), p. ej. src\main\java\com\taskflow\config\SecurityConfig.java
+[OK]         línea 160  clase     TaskNotFoundException  ->  src\main\java\com\taskflow\exception\TaskNotFoundException.java
+[OK]         línea 161  clase     UsernameAlreadyExistsException  ->  src\main\java\com\taskflow\exception\UsernameAlreadyExistsException.java
+[OK]         línea 162  clase     TaskStateException  ->  src\main\java\com\taskflow\exception\TaskStateException.java
+[EXTERNA]    línea 164  clase     Exception  ->  Exception no es archivo del proyecto; el código la usa en 8 archivo(s), p. ej. src\main\java\com\taskflow\config\SecurityConfig.java
+[OK]         línea 180  miembro   Task.estaVencida  ->  src\main\java\com\taskflow\model\Task.java
+[OK]         línea 183  nombre    setStatus()  ->  aparece en 4 archivo(s), p. ej. src\main\java\com\taskflow\config\SecurityConfig.java
+[OK]         línea 184  nombre    assigneeId  ->  aparece en 9 archivo(s), p. ej. src\main\java\com\taskflow\dto\TaskRequest.java
+[OK]         línea 184  miembro   TaskService.cambiarStatus  ->  src\main\java\com\taskflow\service\TaskService.java
+[OK]         línea 192  clase     Project  ->  src\main\java\com\taskflow\model\Project.java
+[OK]         línea 194  miembro   Project.ownerId  ->  src\main\java\com\taskflow\model\Project.java
+[OK]         línea 195  miembro   Task.assigneeId  ->  src\main\java\com\taskflow\model\Task.java
+[OK]         línea 195  clase     User  ->  src\main\java\com\taskflow\model\User.java
+[REVISA]     línea 201  ruta      ./data/taskflow  ->  está en data\, que crea H2 al arrancar (application.yml): el script no revisa esa carpeta
+[OK]         línea 206  clase     DataSeeder  ->  src\main\java\com\taskflow\config\DataSeeder.java
+[OK]         línea 211  ruta      src/main/resources/static  ->  src\main\resources\static
+[OK]         línea 219  anotación @RequestBody  ->  se usa en 3 archivo(s), p. ej. src\main\java\com\taskflow\controller\AuthController.java
+[OK]         línea 226  anotación @WebMvcTest  ->  se usa en 2 archivo(s), p. ej. src\test\java\com\taskflow\slice\ProjectControllerTest.java
+[OK]         línea 226  anotación @DataJpaTest  ->  se usa en 2 archivo(s), p. ej. src\test\java\com\taskflow\integration\TaskRepositoryPostgresIT.java
+[OK]         línea 227  anotación @SpringBootTest  ->  se usa en 5 archivo(s), p. ej. src\test\java\com\taskflow\integration\AuthControllerTest.java
 
-Sin verificar (48): el script no sabe comprobarlos; léelos tú:
-  `-Ddocker.tests=true` (l. 217), `?priority=` (l. 80), `?status=` (l. 64), `*IT.java` (l. 216), `/auth/**` (l. 112), `/h2-console/**` (l. 115), `/swagger-ui/**` (l. 114), `/v3/api-docs/**` (l. 114), `200 OK` (l. 50), `201 Created` (l. 49), `204 No Content` (l. 67), `400 Bad Request` (l. 145), `401 Unauthorized` (l. 107), `403` (l. 131), `403 Forbidden` (l. 108), `404` (l. 130), `404 Not Found` (l. 88), `409 Conflict` (l. 149), `422 Unprocessable Entity` (l. 150), `ADMIN` (l. 121), `bloque ```java (l. 125-127)` (l. 125), `create-drop` (l. 196), `DB_HOST` (l. 192), `DB_NAME` (l. 192), `DB_PASSWORD` (l. 192), `DB_PORT` (l. 192), `DB_USER` (l. 192), `DELETE` (l. 133), `docker` (l. 192), `DONE` (l. 150), `GET` (l. 117), `h2` (l. 190), `IN_PROGRESS` (l. 175), `JWT_SECRET` (l. 192), `Location: /projects/{id}` (l. 65), `Location: /tasks/{id}` (l. 82), `mvn test` (l. 217), `open-in-view: false` (l. 184), `OPTIONS` (l. 133), `PATCH` (l. 133), `POST` (l. 133), `PUT` (l. 133), `record` (l. 206), `tasks.project_id` (l. 71), `test` (l. 191), `TODO` (l. 161), `true` (l. 168), `USER` (l. 121)
+Sin verificar (49): el script no sabe comprobarlos; léelos tú:
+  `-Ddocker.tests=true` (l. 229), `?priority=` (l. 80), `?status=` (l. 64), `*IT.java` (l. 228), `/auth/**` (l. 124), `/h2-console/**` (l. 127), `/swagger-ui/**` (l. 126), `/v3/api-docs/**` (l. 126), `200 OK` (l. 50), `201 Created` (l. 49), `204 No Content` (l. 67), `400 Bad Request` (l. 157), `401 Unauthorized` (l. 119), `403` (l. 143), `403 Forbidden` (l. 120), `404` (l. 142), `404 Not Found` (l. 88), `409 Conflict` (l. 161), `422 Unprocessable Entity` (l. 162), `ADMIN` (l. 133), `bloque ```java (l. 137-139)` (l. 137), `create-drop` (l. 208), `DB_HOST` (l. 204), `DB_NAME` (l. 204), `DB_PASSWORD` (l. 204), `DB_PORT` (l. 204), `DB_USER` (l. 204), `DELETE` (l. 145), `docker` (l. 204), `DONE` (l. 162), `GET` (l. 129), `h2` (l. 202), `id` (l. 96), `IN_PROGRESS` (l. 187), `JWT_SECRET` (l. 204), `Location: /projects/{id}` (l. 65), `Location: /tasks/{id}` (l. 82), `mvn test` (l. 229), `open-in-view: false` (l. 196), `OPTIONS` (l. 145), `PATCH` (l. 145), `POST` (l. 92), `PUT` (l. 145), `record` (l. 218), `tasks.project_id` (l. 71), `test` (l. 203), `TODO` (l. 173), `true` (l. 180), `USER` (l. 133)
 
-Resumen: 64 OK · 6 REVISA · 6 EXTERNA · 0 NO EXISTE · 48 sin verificar
+Resumen: 73 OK · 7 REVISA · 6 EXTERNA · 0 NO EXISTE · 49 sin verificar
