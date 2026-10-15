@@ -211,4 +211,24 @@ class TaskControllerTest {
                 .andExpect(jsonPath("$.length()").value(1))
                 .andExpect(jsonPath("$[0].title").value("Corregir bug de fechas"));
     }
+
+    @Test
+    void getUnassigned_returns200AndAssigneeNull() throws Exception {
+        Task sin1;
+        Task sin2;
+        try {
+            sin1 = new Task(4L, "Escribir tests MockMvc", "desc", TaskStatus.TODO, Priority.MED, 1L, null, LocalDate.now().plusDays(7));
+            sin2 = new Task(6L, "Publicar en la tienda", "desc", TaskStatus.TODO, Priority.MED, 1L, null, LocalDate.now().plusDays(10));
+        } catch (TaskValidationException e) {
+            throw new IllegalStateException("dato de prueba inválido", e);
+        }
+
+        when(taskService.sinResponsable()).thenReturn(List.of(sin1, sin2));
+
+        mockMvc.perform(get("/tasks/unassigned"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(2))
+                .andExpect(jsonPath("$[0].id").value(4))
+                .andExpect(jsonPath("$[0].assigneeId").value(org.hamcrest.Matchers.nullValue()));
+    }
 }
