@@ -22,6 +22,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
+import java.time.LocalDate;
 import java.util.Optional;
 
 import static org.hamcrest.Matchers.matchesPattern;
@@ -189,5 +190,45 @@ class TaskControllerTest {
         } catch (TaskValidationException e) {
             throw new IllegalStateException("dato de prueba inválido", e);
         }
+    }
+
+    private Task tareaConConFecha(Long id, String title, TaskStatus status, Long projectId, LocalDate dueDate) {
+        try {
+            return new Task(id, title, "desc", status, Priority.MED, projectId, 1L, dueDate);
+        } catch (TaskValidationException e) {
+            throw new IllegalStateException("dato de prueba inválido", e);
+        }
+    }
+
+    @Test
+    void getOverdue_returns200YListaOrdenada() throws Exception {
+        when(taskService.vencidas()).thenReturn(List.of(
+                tareaConConFecha(7L, "Corregir bug de fechas", TaskStatus.IN_PROGRESS, 1L, LocalDate.now().minusDays(1))
+        ));
+
+        mockMvc.perform(get("/tasks/overdue"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(1))
+                .andExpect(jsonPath("$[0].title").value("Corregir bug de fechas"));
+    }
+
+    @Test
+    void getUnassigned_returns200AndAssigneeNull() throws Exception {
+        Task sin1;
+        Task sin2;
+        try {
+            sin1 = new Task(4L, "Escribir tests MockMvc", "desc", TaskStatus.TODO, Priority.MED, 1L, null, LocalDate.now().plusDays(7));
+            sin2 = new Task(6L, "Publicar en la tienda", "desc", TaskStatus.TODO, Priority.MED, 1L, null, LocalDate.now().plusDays(10));
+        } catch (TaskValidationException e) {
+            throw new IllegalStateException("dato de prueba inválido", e);
+        }
+
+        when(taskService.sinResponsable()).thenReturn(List.of(sin1, sin2));
+
+        mockMvc.perform(get("/tasks/unassigned"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(2))
+                .andExpect(jsonPath("$[0].id").value(4))
+                .andExpect(jsonPath("$[0].assigneeId").value(org.hamcrest.Matchers.nullValue()));
     }
 }

@@ -18,6 +18,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
+import java.util.List;
+import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -161,6 +163,68 @@ class TaskServiceTest {
             return new Task(id, title, "desc", TaskStatus.TODO, Priority.MED, PROYECTO, assigneeId, null);
         } catch (TaskValidationException e) {
             throw new IllegalStateException("dato de prueba inválido", e);
+        }
+    }
+
+    @Test
+    void vencidas_devuelveSoloVencidasYOrdenadas() throws TaskValidationException {
+        // Repo devuelve en este orden: vencida hace 1 día, due en 3 días, DONE vencida hace 10 días,
+        // sin dueDate, vencida hace 5 días
+        Task a = new Task(11L, "VOne", "desc", TaskStatus.IN_PROGRESS, Priority.MED, PROYECTO, 1L, LocalDate.now().minusDays(1));
+        Task b = new Task(12L, "Futura", "desc", TaskStatus.IN_PROGRESS, Priority.MED, PROYECTO, 1L, LocalDate.now().plusDays(3));
+        Task c = new Task(13L, "HechaAntigua", "desc", TaskStatus.DONE, Priority.MED, PROYECTO, 1L, LocalDate.now().minusDays(10));
+        Task d = new Task(14L, "SinFecha", "desc", TaskStatus.IN_PROGRESS, Priority.MED, PROYECTO, 1L, null);
+        Task e = new Task(15L, "VFive", "desc", TaskStatus.IN_PROGRESS, Priority.MED, PROYECTO, 1L, LocalDate.now().minusDays(5));
+
+        when(repository.findAll()).thenReturn(List.of(a, b, c, d, e));
+
+        List<Task> res = service.vencidas();
+
+        // Debe devolver solo las vencidas no-DONE (e y a), ordenadas POR_FECHA ascendente => e (5d) antes que a (1d)
+        assertEquals(2, res.size());
+        assertEquals(15L, res.get(0).getId());
+        assertEquals(11L, res.get(1).getId());
+    }
+
+    @Nested
+    @DisplayName("SinResponsable")
+    class SinResponsable {
+
+        @Test
+        void devuelveSoloSinResponsableYOrdenadasPorFecha() {
+            Task t10 = null;
+            Task conResp = null;
+            Task sinFecha = null;
+            Task t2 = null;
+            try {
+                t10 = new Task(1L, "T10d", "desc", TaskStatus.TODO, Priority.MED, PROYECTO, null, LocalDate.now().plusDays(10));
+                conResp = new Task(2L, "ConResp", "desc", TaskStatus.TODO, Priority.MED, PROYECTO, 5L, LocalDate.now().plusDays(5));
+                sinFecha = new Task(3L, "SinFecha", "desc", TaskStatus.TODO, Priority.MED, PROYECTO, null, null);
+                t2 = new Task(4L, "T2d", "desc", TaskStatus.TODO, Priority.MED, PROYECTO, null, LocalDate.now().plusDays(2));
+            } catch (TaskValidationException e) {
+                throw new IllegalStateException("dato de prueba inválido", e);
+            }
+
+            when(repository.findAll()).thenReturn(List.of(t10, conResp, sinFecha, t2));
+
+            List<Task> res = service.sinResponsable();
+
+            var ids = res.stream().map(Task::getId).toList();
+            assertEquals(List.of(4L, 1L, 3L), ids);
+        }
+
+        @Test
+        void devuelveListaVaciaSiTodasConResponsable() {
+            Task con = null;
+            try {
+                con = new Task(11L, "Con", "desc", TaskStatus.TODO, Priority.MED, PROYECTO, 1L, null);
+            } catch (TaskValidationException e) {
+                throw new IllegalStateException("dato de prueba inválido", e);
+            }
+            when(repository.findAll()).thenReturn(List.of(con));
+
+            List<Task> res = service.sinResponsable();
+            assertEquals(List.of(), res.stream().map(Task::getId).toList());
         }
     }
 }
