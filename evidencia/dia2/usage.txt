@@ -1,4 +1,5 @@
-Get-Clipboard | Set-Content evidencia\dia2\usage.txt
-Add-Content evidencia\dia2\usage.txt '(copiado el jueves 15; el del miércoles no se guardó)'
-Select-String -Path evidencia\dia2\usage.txt -Pattern '\d+ / [\d,]+ AIC'
-(copiado el jueves 15; el del miércoles no se guardó)
+AI Credits 0 (32s)
+Plan       ■■■■■■■■■■■■■■■■■■■■ 10% used
+           162 / 1,500 AIC
+
+(copiado el jueves 15; el del miercoles no se guardo)
