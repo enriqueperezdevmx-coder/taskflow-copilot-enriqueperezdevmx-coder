@@ -168,18 +168,21 @@ class TaskServiceTest {
 
     @Test
     void vencidas_devuelveSoloVencidasYOrdenadas() throws TaskValidationException {
-        Task t1 = new Task(1L, "Antigua", "desc", TaskStatus.IN_PROGRESS, Priority.MED, PROYECTO, 1L, LocalDate.now().minusDays(5));
-        Task t2 = new Task(2L, "Hecha", "desc", TaskStatus.DONE, Priority.MED, PROYECTO, 1L, LocalDate.now().minusDays(3));
-        Task t3 = new Task(3L, "Reciente", "desc", TaskStatus.IN_PROGRESS, Priority.MED, PROYECTO, 1L, LocalDate.now().minusDays(1));
-        Task t4 = new Task(4L, "SinFecha", "desc", TaskStatus.IN_PROGRESS, Priority.MED, PROYECTO, 1L, null);
+        // Repo devuelve en este orden: vencida hace 1 día, due en 3 días, DONE vencida hace 10 días,
+        // sin dueDate, vencida hace 5 días
+        Task a = new Task(11L, "VOne", "desc", TaskStatus.IN_PROGRESS, Priority.MED, PROYECTO, 1L, LocalDate.now().minusDays(1));
+        Task b = new Task(12L, "Futura", "desc", TaskStatus.IN_PROGRESS, Priority.MED, PROYECTO, 1L, LocalDate.now().plusDays(3));
+        Task c = new Task(13L, "HechaAntigua", "desc", TaskStatus.DONE, Priority.MED, PROYECTO, 1L, LocalDate.now().minusDays(10));
+        Task d = new Task(14L, "SinFecha", "desc", TaskStatus.IN_PROGRESS, Priority.MED, PROYECTO, 1L, null);
+        Task e = new Task(15L, "VFive", "desc", TaskStatus.IN_PROGRESS, Priority.MED, PROYECTO, 1L, LocalDate.now().minusDays(5));
 
-        when(repository.findAll()).thenReturn(List.of(t1, t2, t3, t4));
+        when(repository.findAll()).thenReturn(List.of(a, b, c, d, e));
 
         List<Task> res = service.vencidas();
 
-        // Solo t1 y t3 deben aparecer, en orden ascendente por dueDate (t1 antes que t3)
+        // Debe devolver solo las vencidas no-DONE (e y a), ordenadas POR_FECHA ascendente => e (5d) antes que a (1d)
         assertEquals(2, res.size());
-        assertEquals(1L, res.get(0).getId());
-        assertEquals(3L, res.get(1).getId());
+        assertEquals(15L, res.get(0).getId());
+        assertEquals(11L, res.get(1).getId());
     }
 }
