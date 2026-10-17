@@ -153,4 +153,15 @@ public class TaskController {
         Task actualizada = taskService.cambiarStatus(id, request.status());
         return TaskMapper.aResponse(actualizada);
     }
+
+    @Operation(summary = "Reasigna el responsable de una tarea",
+            description = "Cambia sólo el assigneeId de la tarea. 404 si la tarea no existe; 422 si la tarea está DONE; 400 si el body es inválido.")
+    @PatchMapping("/tasks/{id}/assignee")
+    public TaskResponse patchAssignee(@PathVariable("id") Long id,
+                                      @Valid @RequestBody com.taskflow.dto.TaskAssigneeUpdateRequest request) {
+        Task tarea = taskService.buscarPorId(id)
+                .orElseThrow(() -> new TaskNotFoundException(id));
+        Task actualizada = taskService.reasignar(tarea, request.assigneeId());
+        return TaskMapper.aResponse(actualizada);
+    }
 }
